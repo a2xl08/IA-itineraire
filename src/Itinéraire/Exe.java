@@ -45,8 +45,9 @@ public class Exe {
 			chemins.add(magrille.parcours(user.getSports().get(choix), temps, magrille.getdim()/2, magrille.getdim()/2));
 		}
 		System.out.println("	Choix du chemin...");
-		CheminLong cheminfinal = magrille.chooseChemin(chemins, temps);
+		CheminLong cheminfinal = new CheminLong (magrille.chooseChemin(chemins, temps).getChemin(), magrille.chooseChemin(chemins, temps).getTemps());
 		magrille.displayChemin(cheminfinal);
+		// excel : regarder les temps de parcours, le nombre d'étapes
 	}
 
 }

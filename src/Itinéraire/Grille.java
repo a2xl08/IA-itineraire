@@ -174,7 +174,7 @@ public class Grille {
 		int j=j0;
 		boolean trendtop = rand.nextBoolean();
 		boolean trendright = rand.nextBoolean();
-		while (fromstart<temps/1.5){
+		while (fromstart<temps/1.8){
 			String dir = this.nextdir(trendtop, trendright);
 			if (dir=="TOP"){
 				fromstart = fromstart + 1/(sport.getVm());
@@ -254,6 +254,7 @@ public class Grille {
 	
 	public void displayChemin(CheminLong chemin){
 		System.out.println("	Voici l'itinéraire retenu : ");
+		System.out.println(chemin);
 		int l = chemin.getChemin().size();
 		for (int k=0; k<l; k++){
 			Integer[] point = chemin.getChemin().get(k);
