@@ -22,7 +22,25 @@ public class Exe {
 		// définition de la grille;
 		Grille magrille = new Grille(60, 0.5);
 			// Vous pouvez changer les reliefs et les points touristiques ici
+		for (int k=0; k<0.4*magrille.getdim(); k++){
+			magrille.mountain(
+					magrille.rand.nextInt(magrille.getdim()), 
+					magrille.rand.nextInt(magrille.getdim()), 
+					0.5*magrille.rand.nextDouble());
+		}
 		
+		for (int k=0; k<0.1*magrille.getdim(); k++){
+			magrille.largemount(
+					magrille.rand.nextInt(magrille.getdim()), 
+					magrille.rand.nextInt(magrille.getdim()), 
+					0.5*magrille.rand.nextDouble());
+		}
+		for (int k=0; k<3*magrille.getdim(); k++){
+			magrille.touristize(
+					magrille.rand.nextInt(magrille.getdim()), 
+					magrille.rand.nextInt(magrille.getdim()), 
+					10+15*magrille.rand.nextDouble());
+		}
 		
 		
 		// Execution du programme
@@ -45,9 +63,11 @@ public class Exe {
 			chemins.add(magrille.parcours(user.getSports().get(choix), temps, magrille.getdim()/2, magrille.getdim()/2));
 		}
 		System.out.println("	Choix du chemin...");
+		Integer select = magrille.chooseChemin(chemins, temps);
+		System.out.println("	Le chemin retenu est le n°"+(select+1));
 		CheminLong cheminfinal = new CheminLong 
-				(chemins.get(magrille.chooseChemin(chemins, temps)).getChemin(), 
-				chemins.get(magrille.chooseChemin(chemins, temps)).getTemps());
+				(chemins.get(select).getChemin(), 
+				chemins.get(select).getTemps());
 		magrille.displayChemin(cheminfinal);
 		// excel : regarder les temps de parcours, le nombre d'étapes
 		// reliefs implémentés. A tester

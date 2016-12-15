@@ -259,7 +259,15 @@ public class Grille {
 			System.out.println("		Chemin invalide --> nouvelle recherche en cours...");
 			return parcours(sport, temps, i0, j0);
 		}
-		return new CheminLong(chemin, fromstart);
+		CheminLong cheminlong = new CheminLong(chemin, fromstart);
+		System.out.println("		Temps de parcours : "+(60*fromstart));
+		double tour=0;
+		for (Integer[] tab : chemin){
+			tour = tour + (1/((double) (chemin.size())))* (this.get(tab[0], tab[1]).getTourist());
+		}
+		System.out.println("		Valeur touristique : "+tour);
+		System.out.println("		Evaluation : "+(this.eval(cheminlong, temps)));
+		return cheminlong;
 	}
 	
 	public double eval(CheminLong cheminlong, double temps) {
@@ -267,9 +275,9 @@ public class Grille {
 		ArrayList<Integer[]> chemin = cheminlong.getChemin();
 		double fromstart = cheminlong.getTemps();
 		for (Integer[] tab : chemin){
-			eval = eval + (1/(chemin.size()))* (this.get(tab[0], tab[1]).getTourist());
+			eval = eval + (1/((double) (chemin.size())))* (this.get(tab[0], tab[1]).getTourist());
 		}
-		eval = eval + 30*(fromstart/temps);
+		eval = eval + 1.5*(fromstart/temps);
 		return eval;
 	}
 	
@@ -295,10 +303,7 @@ public class Grille {
 		}
 		System.out.println("Temps de parcours estimé : "+((Double) (60*chemin.getTemps())).toString() + " min");
 		System.out.println("Amusez vous bien, et à très bientôt !");
-		// fix ok
-		// les stats : nombres d'étapes, durée des parcours
-		// reliefs à tester
-		// tourisme à tester
+		return;
 	}
 	
 }
