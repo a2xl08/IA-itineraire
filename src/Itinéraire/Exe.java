@@ -69,9 +69,6 @@ public class Exe {
 				(chemins.get(select).getChemin(), 
 				chemins.get(select).getTemps());
 		magrille.displayChemin(cheminfinal);
-		// excel : regarder les temps de parcours, le nombre d'étapes
-		// reliefs implémentés. A tester
-		// bugs fixés
 	}
 
 }
