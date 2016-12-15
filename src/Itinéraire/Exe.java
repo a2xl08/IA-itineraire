@@ -20,7 +20,7 @@ public class Exe {
 		user.getSports().add(cyclisme);
 		
 		// définition de la grille;
-		Grille magrille = new Grille(60);
+		Grille magrille = new Grille(60, 0.5);
 			// Vous pouvez changer les reliefs et les points touristiques ici
 		
 		
@@ -36,7 +36,7 @@ public class Exe {
 		Integer choix = Integer.parseInt(entry);
 		System.out.println("Combien de temps avez-vous ? (min)");
 		String entry2 = sc.nextLine();
-		Integer minutes = Integer.parseInt(entry2);
+		Double minutes = Double.parseDouble(entry2);
 		Double temps = (double) (minutes/60);
 		System.out.println("C'est parti ! Recherche de chemins en cours...");
 		ArrayList<CheminLong> chemins = new ArrayList<CheminLong>();
@@ -45,9 +45,13 @@ public class Exe {
 			chemins.add(magrille.parcours(user.getSports().get(choix), temps, magrille.getdim()/2, magrille.getdim()/2));
 		}
 		System.out.println("	Choix du chemin...");
-		CheminLong cheminfinal = new CheminLong (magrille.chooseChemin(chemins, temps).getChemin(), magrille.chooseChemin(chemins, temps).getTemps());
+		CheminLong cheminfinal = new CheminLong 
+				(chemins.get(magrille.chooseChemin(chemins, temps)).getChemin(), 
+				chemins.get(magrille.chooseChemin(chemins, temps)).getTemps());
 		magrille.displayChemin(cheminfinal);
 		// excel : regarder les temps de parcours, le nombre d'étapes
+		// reliefs implémentés. A tester
+		// bugs fixés
 	}
 
 }

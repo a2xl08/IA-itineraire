@@ -21,8 +21,4 @@ public class CheminLong {
 		return temps;
 	}
 	
-	public String toString(){
-		return "coucou";
-	}
-	
 }

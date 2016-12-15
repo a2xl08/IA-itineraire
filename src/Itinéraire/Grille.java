@@ -9,12 +9,14 @@ public class Grille {
 	private Integer n;
 	// contenu de la grille
 	private Noeud[][] grille;
+	private double maille;
 	public Random rand;
 	
-	public Grille(Integer n) {
+	public Grille(Integer n, double maille) {
 		super();
 		this.n = n;
 		this.grille = new Noeud[n][n];
+		this.maille = maille;
 		for (int i=0; i<n; i++){
 			for (int j=0; j<n; j++){
 				this.grille[i][j] = new Noeud();
@@ -25,6 +27,10 @@ public class Grille {
 	
 	public Integer getdim(){
 		return this.n;
+	}
+	
+	public double getMaille(){
+		return this.maille;
 	}
 	
 	public Noeud get(int i, int j){
@@ -65,6 +71,26 @@ public class Grille {
 		return;
 	}
 	
+	public double vitesse(Sport sport, double alt1, double alt2){
+		double pente = (alt2-alt1)/(this.getMaille());
+		if (pente>0.10 && sport.getName()=="cyclisme"){
+			return 8;
+		}
+		if (pente>0.05 && sport.getName()=="cyclisme"){
+			return sport.getVm()*0.65;
+		}
+		if (pente>0.02 && sport.getName()=="cyclisme"){
+			return sport.getVm()*0.85;
+		}
+		if (pente>0.05){
+			return sport.getVm()*0.75;
+		}
+		if (pente>0.02){
+			return sport.getVm()*0.9;
+		}
+		return sport.getVm();
+	}
+	
 	public void touristize(int i, int j, double tourist){
 		this.get(i, j).setTourist(tourist);
 	}
@@ -73,48 +99,48 @@ public class Grille {
 		double choice = rand.nextDouble();
 		if (trendtop){
 			if (trendright){
-				if (choice<0.3){
+				if (choice<0.35){
 					return "TOP";
 				}
-				if (choice<0.7){
+				if (choice<0.8){
 					return "RIGHT";
 				}
-				if (choice<0.85){
+				if (choice<0.93){
 					return "BOTTOM";
 				}
 				return "LEFT";
 			} else {
-				if (choice<0.4){
+				if (choice<0.45){
 					return "TOP";
 				}
-				if (choice<0.7){
+				if (choice<0.8){
 					return "LEFT";
 				}
-				if (choice<0.85){
+				if (choice<0.93){
 					return "BOTTOM";
 				}
 				return "RIGHT";
 			}
 		} else {
 			if (trendright){
-				if (choice<0.4){
+				if (choice<0.45){
 					return "BOTTOM";
 				}
-				if (choice<0.7){
+				if (choice<0.8){
 					return "RIGHT";
 				}
-				if (choice<0.85){
+				if (choice<0.87){
 					return "TOP";
 				}
 				return "LEFT";
 			} else {
-				if (choice<0.4){
+				if (choice<0.45){
 					return "BOTTOM";
 				}
-				if (choice<0.7){
+				if (choice<0.8){
 					return "LEFT";
 				}
-				if (choice<0.85){
+				if (choice<0.93){
 					return "TOP";
 				}
 				return "RIGHT";
@@ -177,22 +203,26 @@ public class Grille {
 		while (fromstart<temps/1.8){
 			String dir = this.nextdir(trendtop, trendright);
 			if (dir=="TOP"){
-				fromstart = fromstart + 1/(sport.getVm());
+				fromstart = fromstart + 
+						(this.getMaille())/(vitesse(sport, this.grille[i][j].getAltitude(), this.grille[i][j+1].getAltitude()));
 				this.moveTop(i, j, chemin);
 				j=j+1;
 			}
 			if (dir=="BOTTOM"){
-				fromstart = fromstart + 1/(sport.getVm());
+				fromstart = fromstart + 
+						(this.getMaille())/(vitesse(sport, this.grille[i][j].getAltitude(), this.grille[i][j-1].getAltitude()));
 				this.moveBottom(i, j, chemin);
 				j=j-1;
 			}
 			if (dir=="LEFT"){
-				fromstart = fromstart + 1/(sport.getVm());
+				fromstart = fromstart + 
+						(this.getMaille())/(vitesse(sport, this.grille[i][j].getAltitude(), this.grille[i-1][j].getAltitude()));
 				this.moveLeft(i, j, chemin);
 				i=i-1;
 			}
 			if (dir=="RIGHT"){
-				fromstart = fromstart + 1/(sport.getVm());
+				fromstart = fromstart + 
+						(this.getMaille())/(vitesse(sport, this.grille[i][j].getAltitude(), this.grille[i+1][j].getAltitude()));
 				this.moveRight(i, j, chemin);
 				i=i+1;
 			}
@@ -201,21 +231,25 @@ public class Grille {
 			String axe = returndir(i-i0, j-j0);
 			if (axe=="X"){
 				if (trendright){
-					fromstart = fromstart + 1/(sport.getVm());
+					fromstart = fromstart + 
+							(this.getMaille())/(vitesse(sport, this.grille[i][j].getAltitude(), this.grille[i-1][j].getAltitude()));
 					this.moveLeft(i, j, chemin);
 					i=i-1;
 				} else {
-					fromstart = fromstart + 1/(sport.getVm());
+					fromstart = fromstart + 
+							(this.getMaille())/(vitesse(sport, this.grille[i][j].getAltitude(), this.grille[i+1][j].getAltitude()));
 					this.moveRight(i, j, chemin);
 					i=i+1;
 				}
 			} else {
 				if (trendtop){
-					fromstart = fromstart + 1/(sport.getVm());
+					fromstart = fromstart + 
+							(this.getMaille())/(vitesse(sport, this.grille[i][j].getAltitude(), this.grille[i][j-1].getAltitude()));
 					this.moveBottom(i, j, chemin);
 					j=j-1;
 				} else {
-					fromstart = fromstart + 1/(sport.getVm());
+					fromstart = fromstart + 
+							(this.getMaille())/(vitesse(sport, this.grille[i][j].getAltitude(), this.grille[i][j+1].getAltitude()));
 					this.moveTop(i, j, chemin);
 					j=j+1;
 				}
@@ -239,22 +273,21 @@ public class Grille {
 		return eval;
 	}
 	
-	public CheminLong chooseChemin(ArrayList<CheminLong> cheminlongs, double temps){
-		double evalmax = 0;
-		CheminLong chemin = null;
-		for (CheminLong cheminlong : cheminlongs){
-			double eval = eval(cheminlong, temps);
-			if (eval>evalmax){
+	public int chooseChemin(ArrayList<CheminLong> cheminlongs, double temps){
+		double evalmax = this.eval(cheminlongs.get(0), temps);
+		int select = 0;
+		for (int k=1; k<cheminlongs.size(); k++){
+			double eval = eval(cheminlongs.get(k), temps);
+			if (eval>=evalmax){
 				evalmax = eval;
-				chemin = cheminlong;
+				select = k;
 			}
 		}
-		return chemin;
+		return select;
 	}
 	
 	public void displayChemin(CheminLong chemin){
 		System.out.println("	Voici l'itinéraire retenu : ");
-		System.out.println(chemin);
 		int l = chemin.getChemin().size();
 		for (int k=0; k<l; k++){
 			Integer[] point = chemin.getChemin().get(k);
@@ -262,6 +295,10 @@ public class Grille {
 		}
 		System.out.println("Temps de parcours estimé : "+((Double) (60*chemin.getTemps())).toString() + " min");
 		System.out.println("Amusez vous bien, et à très bientôt !");
+		// fix ok
+		// les stats : nombres d'étapes, durée des parcours
+		// reliefs à tester
+		// tourisme à tester
 	}
 	
 }
