@@ -8,10 +8,10 @@ public class Exe {
 	public static void main(String[] args) {
 
 		// définition des sports
-		Sport marche = new Sport("marche", 8);
-		Sport course = new Sport("course", 13);
-		Sport cyclisme = new Sport("cyclisme", 25);
-		Sport roller = new Sport("roller", 18);
+		Sport marche = new Sport("marche", 7);
+		Sport course = new Sport("course", 11);
+		Sport cyclisme = new Sport("cyclisme", 20);
+		Sport roller = new Sport("roller", 15);
 		
 		// définition de l'utilisateur
 		User user = new User("Toto", new ArrayList<Sport>());
@@ -20,7 +20,7 @@ public class Exe {
 		user.getSports().add(cyclisme);
 		
 		// définition de la grille;
-		Grille magrille = new Grille(60, 0.5);
+		Grille magrille = new Grille(60, 0.1);
 			// Vous pouvez changer les reliefs et les points touristiques ici
 		for (int k=0; k<0.4*magrille.getdim(); k++){
 			magrille.mountain(
