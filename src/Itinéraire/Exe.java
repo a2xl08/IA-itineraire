@@ -11,6 +11,7 @@ public class Exe {
 		Sport marche = new Sport("marche", 7);
 		Sport course = new Sport("course", 11);
 		Sport cyclisme = new Sport("cyclisme", 20);
+		@SuppressWarnings("unused")
 		Sport roller = new Sport("roller", 15);
 		
 		// définition de l'utilisateur
@@ -44,6 +45,7 @@ public class Exe {
 		
 		
 		// Execution du programme
+		@SuppressWarnings("resource")
 		Scanner sc = new Scanner(System.in);
 		System.out.println("Bonjour "+user.getName()+" !\n");
 		System.out.println("Quel sport fait-on aujourd'hui ?");
